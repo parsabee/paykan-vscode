@@ -1,0 +1,59 @@
+{
+  "name": "paykan",
+  "displayName": "PaykanLang",
+  "description": "Syntax highlighting for the PaykanLang programming language (.pkn)",
+  "version": "0.0.1",
+  "publisher": "parsabee",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/parsabee/paykan-vscode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/parsabee/paykan-vscode/issues"
+  },
+  "homepage": "https://github.com/parsabee/PaykanLang",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "keywords": [
+    "paykan",
+    "paykanlang",
+    "pkn",
+    "syntax"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "paykan",
+        "aliases": [
+          "PaykanLang",
+          "Paykan",
+          "paykan"
+        ],
+        "extensions": [
+          ".pkn"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "paykan",
+        "scopeName": "source.paykan",
+        "path": "./syntaxes/paykan.tmLanguage.json"
+      }
+    ]
+  },
+  "scripts": {
+    "test": "vscode-tmgrammar-test -g syntaxes/paykan.tmLanguage.json \"tests/**/*.test.pkn\"",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@vscode/vsce": "^3.6.0",
+    "vscode-tmgrammar-test": "^0.1.3"
+  }
+}

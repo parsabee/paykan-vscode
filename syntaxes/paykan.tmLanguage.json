@@ -1,0 +1,249 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "PaykanLang",
+  "scopeName": "source.paykan",
+  "fileTypes": ["pkn"],
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#import" },
+    { "include": "#enum-declaration" },
+    { "include": "#class-declaration" },
+    { "include": "#function-declaration" },
+    { "include": "#expression" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.paykan",
+          "match": "(//).*$",
+          "captures": {
+            "1": { "name": "punctuation.definition.comment.paykan" }
+          }
+        }
+      ]
+    },
+
+    "import": {
+      "name": "meta.import.paykan",
+      "begin": "\\b(import)\\b",
+      "beginCaptures": {
+        "1": { "name": "keyword.control.import.paykan" }
+      },
+      "end": "(;)|(?=^\\s*(?:import|class|enum|fn)\\b)",
+      "endCaptures": {
+        "1": { "name": "punctuation.terminator.statement.paykan" }
+      },
+      "patterns": [
+        { "include": "#comments" },
+        { "name": "keyword.control.import.paykan", "match": "\\bas\\b" },
+        { "name": "punctuation.separator.namespace.paykan", "match": "::" },
+        { "name": "punctuation.section.braces.begin.paykan", "match": "\\{" },
+        { "name": "punctuation.section.braces.end.paykan", "match": "\\}" },
+        { "name": "punctuation.separator.comma.paykan", "match": "," },
+        { "name": "entity.name.namespace.paykan", "match": "\\b[_a-zA-Z][_a-zA-Z0-9]*\\b" }
+      ]
+    },
+
+    "enum-declaration": {
+      "name": "meta.enum.paykan",
+      "begin": "\\b(enum)\\s+([_a-zA-Z][_a-zA-Z0-9]*)",
+      "beginCaptures": {
+        "1": { "name": "storage.type.enum.paykan" },
+        "2": { "name": "entity.name.type.enum.paykan" }
+      },
+      "end": "\\}",
+      "endCaptures": {
+        "0": { "name": "punctuation.section.braces.end.paykan" }
+      },
+      "patterns": [
+        { "include": "#comments" },
+        { "name": "punctuation.section.braces.begin.paykan", "match": "\\{" },
+        { "name": "punctuation.separator.comma.paykan", "match": "," },
+        { "name": "variable.other.enummember.paykan", "match": "\\b[_a-zA-Z][_a-zA-Z0-9]*\\b" }
+      ]
+    },
+
+    "class-declaration": {
+      "match": "\\b(class)\\s+([_a-zA-Z][_a-zA-Z0-9]*)",
+      "captures": {
+        "1": { "name": "storage.type.class.paykan" },
+        "2": { "name": "entity.name.type.class.paykan" }
+      }
+    },
+
+    "function-declaration": {
+      "match": "\\b(fn)\\s+([_a-zA-Z][_a-zA-Z0-9]*)",
+      "captures": {
+        "1": { "name": "storage.type.function.paykan" },
+        "2": { "name": "entity.name.function.paykan" }
+      }
+    },
+
+    "expression": {
+      "patterns": [
+        { "include": "#comments" },
+        { "include": "#strings" },
+        { "include": "#characters" },
+        { "include": "#keywords" },
+        { "include": "#constants" },
+        { "include": "#numbers" },
+        { "include": "#enum-member" },
+        { "include": "#namespace" },
+        { "include": "#types" },
+        { "include": "#builtin-functions" },
+        { "include": "#function-call" },
+        { "include": "#member-access" },
+        { "include": "#operators" },
+        { "include": "#punctuation" },
+        { "include": "#identifiers" }
+      ]
+    },
+
+    "strings": {
+      "name": "string.quoted.double.paykan",
+      "begin": "\"",
+      "beginCaptures": {
+        "0": { "name": "punctuation.definition.string.begin.paykan" }
+      },
+      "end": "(\")|$",
+      "endCaptures": {
+        "1": { "name": "punctuation.definition.string.end.paykan" }
+      },
+      "patterns": [
+        { "name": "constant.character.escape.paykan", "match": "\\\\[ntr\\\\\"0]" }
+      ]
+    },
+
+    "characters": {
+      "name": "string.quoted.single.paykan",
+      "match": "(')(?:[^\\\\'\\n]|(\\\\.))(')",
+      "captures": {
+        "1": { "name": "punctuation.definition.string.begin.paykan" },
+        "2": { "name": "constant.character.escape.paykan" },
+        "3": { "name": "punctuation.definition.string.end.paykan" }
+      }
+    },
+
+    "keywords": {
+      "patterns": [
+        { "name": "keyword.control.conditional.paykan", "match": "\\b(?:if|then|else|match)\\b" },
+        { "name": "keyword.control.loop.paykan", "match": "\\bwhile\\b" },
+        { "name": "keyword.control.flow.paykan", "match": "\\b(?:break|continue|return)\\b" },
+        { "name": "keyword.control.import.paykan", "match": "\\b(?:import|as)\\b" },
+        { "name": "storage.type.class.paykan", "match": "\\bclass\\b" },
+        { "name": "storage.type.enum.paykan", "match": "\\benum\\b" },
+        { "name": "storage.type.function.paykan", "match": "\\bfn\\b" },
+        { "name": "invalid.deprecated.mov.paykan", "match": "\\bmov\\b" }
+      ]
+    },
+
+    "constants": {
+      "patterns": [
+        { "name": "constant.language.boolean.paykan", "match": "\\b(?:True|False)\\b" },
+        { "name": "constant.language.null.paykan", "match": "\\bNone\\b" },
+        { "name": "variable.language.self.paykan", "match": "\\bself\\b" },
+        { "name": "variable.language.wildcard.paykan", "match": "\\b_\\b" },
+        { "name": "support.variable.builtin.paykan", "match": "\\bStdin\\b" }
+      ]
+    },
+
+    "numbers": {
+      "patterns": [
+        { "name": "constant.numeric.integer.tuple-index.paykan", "match": "(?<=\\.)[0-9]+" },
+        { "name": "constant.numeric.float.paykan", "match": "\\b[0-9]+(?:\\.[0-9]*(?:[eE][+-]?[0-9]+)?|[eE][+-]?[0-9]+)" },
+        { "name": "constant.numeric.integer.paykan", "match": "\\b[0-9]+\\b" }
+      ]
+    },
+
+    "enum-member": {
+      "match": "\\b([A-Z][_a-zA-Z0-9]*)\\s*(::)\\s*([_a-zA-Z][_a-zA-Z0-9]*)\\b(?!\\s*(?:::|\\())",
+      "captures": {
+        "1": { "name": "entity.name.type.enum.paykan" },
+        "2": { "name": "punctuation.separator.namespace.paykan" },
+        "3": { "name": "variable.other.enummember.paykan" }
+      }
+    },
+
+    "namespace": {
+      "match": "\\b([_a-zA-Z][_a-zA-Z0-9]*)\\s*(::)",
+      "captures": {
+        "1": { "name": "entity.name.namespace.paykan" },
+        "2": { "name": "punctuation.separator.namespace.paykan" }
+      }
+    },
+
+    "types": {
+      "patterns": [
+        { "name": "support.type.primitive.paykan", "match": "\\b(?:int|float|bool|char|void)\\b" },
+        { "name": "support.class.builtin.paykan", "match": "\\b(?:Obj|Str|File|Error|Int|Float|Bool|Char|Tuple)\\b" },
+        { "name": "entity.name.type.paykan", "match": "\\b[A-Z][_a-zA-Z0-9]*\\b" }
+      ]
+    },
+
+    "builtin-functions": {
+      "match": "\\b(print|println|printerr|printerrln|open|__super__)\\s*(?=\\()",
+      "captures": {
+        "1": { "name": "support.function.builtin.paykan" }
+      }
+    },
+
+    "function-call": {
+      "match": "\\b([_a-zA-Z][_a-zA-Z0-9]*)\\s*(?=(?:<[^;{}()]*>)?\\s*\\()",
+      "captures": {
+        "1": { "name": "entity.name.function.call.paykan" }
+      }
+    },
+
+    "member-access": {
+      "patterns": [
+        {
+          "match": "(\\.)\\s*([_a-zA-Z][_a-zA-Z0-9]*)\\s*(?=\\()",
+          "captures": {
+            "1": { "name": "punctuation.accessor.paykan" },
+            "2": { "name": "entity.name.function.member.paykan" }
+          }
+        },
+        {
+          "match": "(\\.)\\s*([_a-zA-Z][_a-zA-Z0-9]*)",
+          "captures": {
+            "1": { "name": "punctuation.accessor.paykan" },
+            "2": { "name": "variable.other.property.paykan" }
+          }
+        }
+      ]
+    },
+
+    "operators": {
+      "patterns": [
+        { "name": "keyword.operator.arrow.paykan", "match": "->" },
+        { "name": "punctuation.separator.namespace.paykan", "match": "::" },
+        { "name": "keyword.operator.comparison.paykan", "match": "==|!=|<=|>=|<|>" },
+        { "name": "keyword.operator.logical.paykan", "match": "&&|\\|\\||!" },
+        { "name": "keyword.operator.assignment.paykan", "match": "=" },
+        { "name": "keyword.operator.arithmetic.paykan", "match": "[-+*/%]" },
+        { "name": "keyword.operator.optional.paykan", "match": "\\?" }
+      ]
+    },
+
+    "punctuation": {
+      "patterns": [
+        { "name": "punctuation.accessor.paykan", "match": "\\." },
+        { "name": "punctuation.separator.colon.paykan", "match": ":" },
+        { "name": "punctuation.terminator.statement.paykan", "match": ";" },
+        { "name": "punctuation.separator.comma.paykan", "match": "," },
+        { "name": "punctuation.section.braces.begin.paykan", "match": "\\{" },
+        { "name": "punctuation.section.braces.end.paykan", "match": "\\}" },
+        { "name": "punctuation.section.parens.begin.paykan", "match": "\\(" },
+        { "name": "punctuation.section.parens.end.paykan", "match": "\\)" },
+        { "name": "punctuation.section.brackets.begin.paykan", "match": "\\[" },
+        { "name": "punctuation.section.brackets.end.paykan", "match": "\\]" }
+      ]
+    },
+
+    "identifiers": {
+      "name": "variable.other.paykan",
+      "match": "\\b[_a-zA-Z][_a-zA-Z0-9]*\\b"
+    }
+  }
+}

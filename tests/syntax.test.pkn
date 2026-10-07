@@ -1,0 +1,124 @@
+// SYNTAX TEST "source.paykan" "PaykanLang tokens"
+
+import geometry::shapes;
+// <------ keyword.control.import.paykan
+//     ^^^^^^^^ entity.name.namespace.paykan
+//             ^^ punctuation.separator.namespace.paykan
+//               ^^^^^^ entity.name.namespace.paykan
+//                     ^ punctuation.terminator.statement.paykan
+
+import ::io::{files as f, net};
+//     ^^ punctuation.separator.namespace.paykan
+//       ^^ entity.name.namespace.paykan
+//                  ^^ keyword.control.import.paykan
+//                     ^ entity.name.namespace.paykan
+//                        ^^^ entity.name.namespace.paykan
+
+// a comment with fn and "quotes"
+// <-- comment.line.double-slash.paykan punctuation.definition.comment.paykan
+//                ^^ comment.line.double-slash.paykan
+
+enum Light { Red, Yellow, Green }
+// <---- storage.type.enum.paykan
+//   ^^^^^ entity.name.type.enum.paykan
+//           ^^^ variable.other.enummember.paykan
+//                        ^^^^^ variable.other.enummember.paykan
+//                              ^ punctuation.section.braces.end.paykan
+
+class Point3<T> : shapes::Point {
+// <----- storage.type.class.paykan
+//    ^^^^^^ entity.name.type.class.paykan
+//           ^ entity.name.type.paykan
+//                ^^^^^^ entity.name.namespace.paykan
+//                        ^^^^^ entity.name.type.paykan
+
+  z: float?;
+//^ variable.other.paykan
+// ^ punctuation.separator.colon.paykan
+//   ^^^^^ support.type.primitive.paykan
+//        ^ keyword.operator.optional.paykan
+
+  fn __init__(z: float) { __super__(0, 0); self.z = z; }
+//^^ storage.type.function.paykan
+//   ^^^^^^^^ entity.name.function.paykan
+//                        ^^^^^^^^^ support.function.builtin.paykan
+//                                         ^^^^ variable.language.self.paykan
+//                                              ^ variable.other.property.paykan
+
+  fn get() -> (int, Str[]) { return (1, ["a"]); }
+//   ^^^ entity.name.function.paykan
+//         ^^ keyword.operator.arrow.paykan
+//             ^^^ support.type.primitive.paykan
+//                  ^^^ support.class.builtin.paykan
+//                           ^^^^^^ keyword.control.flow.paykan
+//                                   ^ constant.numeric.integer.paykan
+
+fn main(args: Str[]) -> int {
+// ^^^^ entity.name.function.paykan
+//      ^^^^ variable.other.paykan
+
+  x = 3.25e-2 + 1. - 2e10 * 7 % 4 / 1;
+//  ^ keyword.operator.assignment.paykan
+//    ^^^^^^^ constant.numeric.float.paykan
+//              ^^ constant.numeric.float.paykan
+//                   ^^^^ constant.numeric.float.paykan
+//                          ^ constant.numeric.integer.paykan
+//                            ^ keyword.operator.arithmetic.paykan
+
+  t = ((1, 2), "x"); y = t.0.1;
+//                         ^ constant.numeric.integer.tuple-index.paykan
+//                           ^ constant.numeric.integer.tuple-index.paykan
+
+  s = "tab\there \"q\" \q"; c = '\n'; d = 'a';
+//    ^ string.quoted.double.paykan punctuation.definition.string.begin.paykan
+//        ^^ string.quoted.double.paykan constant.character.escape.paykan
+//               ^^ string.quoted.double.paykan constant.character.escape.paykan
+//                     ^^ string.quoted.double.paykan
+//                              ^ string.quoted.single.paykan punctuation.definition.string.begin.paykan
+//                               ^^ string.quoted.single.paykan constant.character.escape.paykan
+//                                         ^^ string.quoted.single.paykan
+
+  if a <= b && !done then x else y;
+//^^ keyword.control.conditional.paykan
+//     ^^ keyword.operator.comparison.paykan
+//          ^^ keyword.operator.logical.paykan
+//             ^ keyword.operator.logical.paykan
+//                   ^^^^ keyword.control.conditional.paykan
+//                          ^^^^ keyword.control.conditional.paykan
+
+  while True { break; continue; }
+//^^^^^ keyword.control.loop.paykan
+//      ^^^^ constant.language.boolean.paykan
+//             ^^^^^ keyword.control.flow.paykan
+
+  match o { p: Point { println(p.toString()); } _ { } }
+//^^^^^ keyword.control.conditional.paykan
+//             ^^^^^ entity.name.type.paykan
+//                     ^^^^^^^ support.function.builtin.paykan
+//                               ^^^^^^^^ entity.name.function.member.paykan
+//                                              ^ variable.language.wildcard.paykan
+
+  l = Light::Red; m = geo::Light::Green; n = None;
+//    ^^^^^ entity.name.type.enum.paykan
+//           ^^^ variable.other.enummember.paykan
+//                    ^^^ entity.name.namespace.paykan
+//                                ^^^^^ variable.other.enummember.paykan
+//                                           ^^^^ constant.language.null.paykan
+
+  b = Box<int>(5); v = first<Str>(xs); w = helper::add(1, 2);
+//    ^^^ entity.name.type.paykan
+//                     ^^^^^ entity.name.function.call.paykan
+//                                         ^^^^^^ entity.name.namespace.paykan
+//                                                 ^^^ entity.name.function.call.paykan
+
+  n = int<Str>("42"); line = Stdin.readln(); k = mov s;
+//    ^^^ support.type.primitive.paykan
+//                           ^^^^^ support.variable.builtin.paykan
+//                                 ^^^^^^ entity.name.function.member.paykan
+//                                               ^^^ invalid.deprecated.mov.paykan
+
+  _x = __private; x1 = 5;
+//^^ variable.other.paykan
+//     ^^^^^^^^^ variable.other.paykan
+//                ^^ variable.other.paykan
+
